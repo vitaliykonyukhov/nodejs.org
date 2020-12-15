@@ -5,7 +5,7 @@ pipeline {
         gitParameter branchFilter: 'origin/(.*)', defaultValue: 'master', name: 'BRANCH', type: 'PT_BRANCH'
     }
     */
-
+    /*
     environment {
         PROD_USER = 'deploy'
         PROD_HOST = '100.100.100.11'
@@ -24,8 +24,21 @@ pipeline {
             script: "ssh ${PROD_USER}@${PROD_HOST} 'cd /var/www/myapp; ls -la | grep current | cut -d \'/\' -f6' "
             ).trim()
     }
-
+    */
+    
     stages {
+        stage('check current environment') {
+            agent { label 'master' }
+            steps {
+                sh '''
+                hostname
+                pwd
+                id
+                ssh deploy@100.100.100.11 hostname
+                '''
+            }
+        }
+
         stage('Build') {
             agent { label 'slave' }
             steps {
@@ -36,12 +49,13 @@ pipeline {
             }
         }
 
+        /*
         stage('Deploy') {
             agent { label 'master' }
-            /* Деплой будет происходить только если:
+             Деплой будет происходить только если:
                 - новый коммит в мастер ветке был помечен тэгом
                 - симлинк указывает на дирректорию имя которой отлично от последнего добавленного тэга
-            */ 
+             
             when {
                  expression { CURRENT_VERSION_ON_PROD != NEW_TAG_NAME }
             }
@@ -58,5 +72,6 @@ pipeline {
                 '''
             }
         }
+        */       
     }
 }

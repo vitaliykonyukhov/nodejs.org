@@ -1,5 +1,5 @@
 pipeline {
-    agent any
+    agent { label 'master' }
     /*
     parameters {
         gitParameter branchFilter: 'origin/(.*)', defaultValue: 'master', name: 'BRANCH', type: 'PT_BRANCH'
@@ -27,7 +27,7 @@ pipeline {
 
     stages {
         stage('Build') {
-            agent { label 'do-14' }
+            agent { label 'slave' }
             steps {
                 sh '''
                 echo Build stage
@@ -37,6 +37,7 @@ pipeline {
         }
 
         stage('Deploy') {
+            agent { label 'master' }
             /* Деплой будет происходить только если:
                 - новый коммит в мастер ветке был помечен тэгом
                 - симлинк указывает на дирректорию имя которой отлично от последнего добавленного тэга

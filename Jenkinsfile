@@ -33,13 +33,13 @@ export NVM_DIR="$HOME/.nvm"
         stage('Build') {
             agent { label 'slave' }
             steps {
-                sh 'bash -l -c ". $HOME/.nvm/nvm.sh ; nvm use v10.12.0 || nvm install v10.12.0 && nvm use v10.12.0"' 
+               // sh 'bash -l -c ". $HOME/.nvm/nvm.sh ; nvm use v10.12.0 || nvm install v10.12.0 && nvm use v10.12.0"' 
                 sh '''
                 git clean -fdx #remove local untracked files
                 id
                 pwd
                 echo "\$NVM_DIR"
-                bash -l -c . /home/jenkins/.nvm/nvm.sh ; nvm use v10.12.0
+                . $HOME/.nvm/nvm.sh
                 nvm -v
                 node -v
                 nvm use v10.12.0

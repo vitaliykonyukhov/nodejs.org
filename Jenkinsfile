@@ -31,20 +31,16 @@ pipeline {
             steps {
                 sh '''
                 git clean -fdx #remove local untracked files
-                ls -la
-                hostname
-                touch test_file.txt
-                echo "some info" > test_file.txt
-                pwd
-                ls -la
-                mkdir build
-                cp test_file.txt build/
+                nvm use v10.12.0
+                npm install
+                npm run build
+                zip zipFile: 'build.zip', archive: false, dir: 'build'
                 '''
             }
             //    archiveArtifacts artifacts: 'test_file.txt', 'build'
             post {
                 success {
-                    archiveArtifacts artifacts: 'test_file.txt', fingerprint: true
+                    archiveArtifacts artifacts: 'build.zip', fingerprint: true
                 }
             }
         }
@@ -61,11 +57,15 @@ pipeline {
                  expression { CURRENT_VERSION_ON_PROD != NEW_TAG_NAME }
             }
             steps {
+                copyArtifacts filter: 'build.zip', fingerprintArtifacts: true, projectName: '${JOB_NAME}', selector: specific('${BUILD_NUMBER}')
+                unzip zipFile: 'build.zip', dir: './build'
                 sh '''
+                git clean -fdx
+                ls -la
                 echo "CURRENT_VERSION_ON_PROD: ${CURRENT_VERSION_ON_PROD}"
                 echo "NEW_TAG_NAME: ${NEW_TAG_NAME}"
 
-                rsync -avr ./index.html ${PROD_USER}@${PROD_HOST}:/var/www/myapp/releases/${NEW_TAG_NAME}/
+                rsync -avr ./build/ ${PROD_USER}@${PROD_HOST}:/var/www/myapp/releases/${NEW_TAG_NAME}/
                 
                 ssh ${PROD_USER}@${PROD_HOST} "ln -sfn /var/www/myapp/releases/${NEW_TAG_NAME}/ /var/www/myapp/current"
                 

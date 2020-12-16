@@ -64,11 +64,13 @@ export NVM_DIR="$HOME/.nvm"
                  expression { CURRENT_VERSION_ON_PROD != NEW_TAG_NAME }
             }
             steps {
+                sh 'git clean -fdx'
                 copyArtifacts filter: 'build.zip', fingerprintArtifacts: true, projectName: '${JOB_NAME}', selector: specific('${BUILD_NUMBER}')
                 unzip zipFile: 'build.zip', dir: './build'
                 sh '''
-                git clean -fdx
-                ls -la
+                ls
+                ls build
+                rsync --version
                 echo "CURRENT_VERSION_ON_PROD: ${CURRENT_VERSION_ON_PROD}"
                 echo "NEW_TAG_NAME: ${NEW_TAG_NAME}"
 

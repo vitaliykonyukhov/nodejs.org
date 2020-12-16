@@ -30,6 +30,8 @@ pipeline {
             agent { label 'slave' }
             steps {
                 sh '''
+                git clean -fdx #remove local untracked files
+                ls -la
                 hostname
                 touch test_file.txt
                 echo "some info" > test_file.txt

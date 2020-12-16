@@ -38,15 +38,12 @@ export NVM_DIR="$HOME/.nvm"
                     set +ex
                     export NVM_DIR="$HOME/.nvm"
                     . ~/.nvm/nvm.sh
-                    nvm -v
-                    node -v
                     set -ex
+                    nvm use v10.12.0
                     npm install
                     npm run build
-                    #/home/jenkins/.nvm/versions/node/v10.12.0/bin/npm install
-                    #/home/jenkins/.nvm/versions/node/v10.12.0/bin/npm run build
-                    zip zipFile: 'build.zip', archive: false, dir: 'build'
                     '''
+                    zip zipFile: 'build.zip', archive: true, dir: 'build'
             }
             post {
                 success {

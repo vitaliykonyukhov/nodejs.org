@@ -33,9 +33,9 @@ export NVM_DIR="$HOME/.nvm"
         stage('Build') {
             agent { label 'slave' }
             steps {
+                sh 'bash -l -c ". $HOME/.nvm/nvm.sh ; nvm use || nvm install v10.12.0 && nvm use v10.12.0"' 
                 sh '''
                 git clean -fdx #remove local untracked files
-                sh 'bash -l -c ". $HOME/.nvm/nvm.sh ; nvm use || nvm install && nvm use"' 
                 id
                 pwd
                 echo $NVM_DIR

@@ -24,7 +24,8 @@ pipeline {
             script: "ssh ${PROD_USER}@${PROD_HOST} 'cd /var/www/myapp; ls -la | grep current | cut -d \'/\' -f6' "
             ).trim()
     }
-    
+
+    stages{
         stage('Build') {
             agent { label 'slave' }
             steps {
@@ -63,5 +64,5 @@ pipeline {
                 '''
             }
         }     
-    
+    }
 }

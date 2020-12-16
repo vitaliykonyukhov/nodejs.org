@@ -33,6 +33,7 @@ pipeline {
                 hostname
                 touch test_file.txt
                 echo "some info" > test_file.txt
+                pwd
                 ls -la
                 mkdir build
                 cp test_file.txt build/

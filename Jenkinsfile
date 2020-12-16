@@ -39,6 +39,7 @@ export NVM_DIR="$HOME/.nvm"
                 id
                 pwd
                 echo "\$NVM_DIR"
+                . ~/.nvm/nvm.sh nvm -v
                 nvm -v
                 node -v
                 npm install

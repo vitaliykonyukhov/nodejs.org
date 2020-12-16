@@ -39,10 +39,9 @@ export NVM_DIR="$HOME/.nvm"
                 id
                 pwd
                 echo "\$NVM_DIR"
-                . $HOME/.nvm/nvm.sh
+                . $HOME/.nvm/nvm.sh nvm use v10.12.0
                 nvm -v
                 node -v
-                nvm use v10.12.0
                 npm install
                 npm run build
                 zip zipFile: 'build.zip', archive: false, dir: 'build'

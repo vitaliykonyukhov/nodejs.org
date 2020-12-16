@@ -33,6 +33,7 @@ pipeline {
                 git clean -fdx #remove local untracked files
                 id
                 pwd
+                curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.0/install.sh | bash
                 nvm use v10.12.0
                 node -v
                 npm install

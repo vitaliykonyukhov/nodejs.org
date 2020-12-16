@@ -36,7 +36,12 @@ pipeline {
                 mkdir build
                 cp test_file.txt build/
                 '''
-                archiveArtifacts artifacts: 'test_file.txt', 'build'
+            }
+            //    archiveArtifacts artifacts: 'test_file.txt', 'build'
+            post {
+                always {
+                    archiveArtifacts artifacts: 'test_file.txt', fingerprint: true
+                }
             }
         }
 

@@ -35,7 +35,7 @@ export NVM_DIR="$HOME/.nvm"
             steps {
                 sh '''
                 git clean -fdx #remove local untracked files
-                . ~/.nvm/nvm.sh
+                sh 'bash -l -c ". $HOME/.nvm/nvm.sh ; nvm use || nvm install && nvm use"' 
                 id
                 pwd
                 echo $NVM_DIR

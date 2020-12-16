@@ -68,12 +68,10 @@ export NVM_DIR="$HOME/.nvm"
                 copyArtifacts filter: 'build.zip', fingerprintArtifacts: true, projectName: '${JOB_NAME}', selector: specific('${BUILD_NUMBER}')
                 unzip zipFile: 'build.zip', dir: './build'
                 sh '''
-                ls
-                ls build
-                rsync --version
                 echo "CURRENT_VERSION_ON_PROD: ${CURRENT_VERSION_ON_PROD}"
                 echo "NEW_TAG_NAME: ${NEW_TAG_NAME}"
-
+                PATH=/usr/bin
+                
                 rsync -avr ./build/ ${PROD_USER}@${PROD_HOST}:/var/www/myapp/releases/${NEW_TAG_NAME}/
                 
                 ssh ${PROD_USER}@${PROD_HOST} "ln -sfn /var/www/myapp/releases/${NEW_TAG_NAME}/ /var/www/myapp/current"

@@ -33,8 +33,8 @@ pipeline {
                 git clean -fdx #remove local untracked files
                 id
                 pwd
-                node -v
                 nvm use v10.12.0
+                node -v
                 npm install
                 npm run build
                 zip zipFile: 'build.zip', archive: false, dir: 'build'

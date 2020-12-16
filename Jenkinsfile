@@ -31,6 +31,9 @@ pipeline {
             steps {
                 sh '''
                 git clean -fdx #remove local untracked files
+                id
+                pwd
+                node -v
                 nvm use v10.12.0
                 npm install
                 npm run build

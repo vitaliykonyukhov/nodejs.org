@@ -34,12 +34,15 @@ export NVM_DIR="$HOME/.nvm"
             agent { label 'slave' }
             steps {
                     sh '''
+                    git clean -fdx
                     set +ex
                     export NVM_DIR="$HOME/.nvm"
                     . ~/.nvm/nvm.sh
                     nvm -v
                     node -v
                     set -ex
+                    npm install
+                    npm run build
                     #/home/jenkins/.nvm/versions/node/v10.12.0/bin/npm install
                     #/home/jenkins/.nvm/versions/node/v10.12.0/bin/npm run build
                     zip zipFile: 'build.zip', archive: false, dir: 'build'

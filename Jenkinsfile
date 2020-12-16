@@ -41,6 +41,7 @@ export NVM_DIR="$HOME/.nvm"
                     /home/jenkins/.nvm/versions/node/v10.12.0/bin/npm run build
                     zip zipFile: 'build.zip', archive: false, dir: 'build'
                     '''
+                }
             }
             //    archiveArtifacts artifacts: 'test_file.txt', 'build'
             post {

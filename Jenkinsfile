@@ -4,6 +4,10 @@ pipeline {
     parameters {
         gitParameter branchFilter: 'origin/(.*)', defaultValue: 'master', name: 'BRANCH', type: 'PT_BRANCH'
     }
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
     */
 
     environment {
@@ -34,11 +38,9 @@ pipeline {
                 id
                 pwd
                 echo $NVM_DIR
-                export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
-                nvm use v10.12.0
+                nvm -v
                 node -v
+                nvm use v10.12.0
                 npm install
                 npm run build
                 zip zipFile: 'build.zip', archive: false, dir: 'build'

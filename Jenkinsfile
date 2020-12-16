@@ -32,16 +32,17 @@ export NVM_DIR="$HOME/.nvm"
     stages{
         stage('Build') {
             agent { label 'slave' }
+            tools {nodejs 'node'}
             steps {
                // sh 'bash -l -c ". $HOME/.nvm/nvm.sh ; nvm use v10.12.0 || nvm install v10.12.0 && nvm use v10.12.0"' 
-                nvm('v10.12.0') {
+                //nvm('v10.12.0') {
                     sh '''
                     node -v
                     /home/jenkins/.nvm/versions/node/v10.12.0/bin/npm install
                     /home/jenkins/.nvm/versions/node/v10.12.0/bin/npm run build
                     zip zipFile: 'build.zip', archive: false, dir: 'build'
                     '''
-                }
+                //}
             }
             //    archiveArtifacts artifacts: 'test_file.txt', 'build'
             post {

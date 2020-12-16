@@ -38,7 +38,8 @@ export NVM_DIR="$HOME/.nvm"
                 git clean -fdx #remove local untracked files
                 id
                 pwd
-                echo $NVM_DIR
+                echo "\$NVM_DIR"
+                bash -l -c . /home/jenkins/.nvm/nvm.sh ; nvm use v10.12.0
                 nvm -v
                 node -v
                 nvm use v10.12.0

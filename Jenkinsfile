@@ -33,13 +33,14 @@ pipeline {
                 hostname
                 touch test_file.txt
                 echo "some info" > test_file.txt
+                ls -la
                 mkdir build
                 cp test_file.txt build/
                 '''
             }
             //    archiveArtifacts artifacts: 'test_file.txt', 'build'
             post {
-                always {
+                success {
                     archiveArtifacts artifacts: 'test_file.txt', fingerprint: true
                 }
             }

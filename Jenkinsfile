@@ -74,9 +74,8 @@ export NVM_DIR="$HOME/.nvm"
                 rsync -avr ./build/ ${PROD_USER}@${PROD_HOST}:/var/www/myapp/releases/${NEW_TAG_NAME}/
                 
                 ssh ${PROD_USER}@${PROD_HOST} "ln -sfn /var/www/myapp/releases/${NEW_TAG_NAME}/ /var/www/myapp/current"
-                
-                ssh ${PROD_USER}@${PROD_HOST} "cd /var/www/myapp/releases && rm -rf \$(ls -t | awk 'NR>5')"
                 '''
+                sh "ssh ${PROD_USER}@${PROD_HOST} \"cd /var/www/myapp/releases && rm -rf \$(ls -t | awk 'NR>5')\""
             }
         }     
     }

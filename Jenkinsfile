@@ -31,7 +31,7 @@ export NVM_DIR="$HOME/.nvm"
 
     stages{
         stage('Build') {
-            agent { label 'slave' }
+            agent { label 'nodejs' }
             steps {
                     sh '''
                     git clean -fdx
@@ -54,7 +54,7 @@ export NVM_DIR="$HOME/.nvm"
 
         
         stage('Deploy') {
-            agent { label 'master' }
+            agent { label 'deploy' }
             /*
              Деплой будет происходить только если:
                 - новый коммит в мастер ветке был помечен тэгом
@@ -68,13 +68,9 @@ export NVM_DIR="$HOME/.nvm"
                 copyArtifacts filter: 'build.zip', fingerprintArtifacts: true, projectName: '${JOB_NAME}', selector: specific('${BUILD_NUMBER}')
                 unzip zipFile: 'build.zip', dir: './build'
                 sh '''
-                id
-                pwd
                 echo "CURRENT_VERSION_ON_PROD: ${CURRENT_VERSION_ON_PROD}"
                 echo "NEW_TAG_NAME: ${NEW_TAG_NAME}"
-                echo "\$PATH"
-                PATH=usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
-                export PATH
+
                 rsync -avr ./build/ ${PROD_USER}@${PROD_HOST}:/var/www/myapp/releases/${NEW_TAG_NAME}/
                 
                 ssh ${PROD_USER}@${PROD_HOST} "ln -sfn /var/www/myapp/releases/${NEW_TAG_NAME}/ /var/www/myapp/current"

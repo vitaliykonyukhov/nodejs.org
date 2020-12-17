@@ -76,8 +76,8 @@ export NVM_DIR="$HOME/.nvm"
                 ssh ${PROD_USER}@${PROD_HOST} "ln -sfn /var/www/myapp/releases/${NEW_TAG_NAME}/ /var/www/myapp/current"
                 '''
                 sh '''
-                ssh ${PROD_USER}@${PROD_HOST} "cd /var/www/myapp/releases && rm -rf \$(ls -t | awk 'NR>5')"
-                '''
+                ssh ${PROD_USER}@${PROD_HOST} 'cd /var/www/myapp/releases && rm -rf $(ls -t | awk "NR>5")'
+                '''        
             }
         }     
     }

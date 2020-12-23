@@ -59,11 +59,12 @@ pipeline {
 
     stages{
         // Проверка что коммит по которому запущена job протегирован
-        stage('Check before build')
+        stage('Check before build') {
             agent { label 'master' }
             steps {
                 echo "NEW_TAG_NAME: ${NEW_TAG_NAME}"
             }
+        }
 
         stage('Build') {
             when {

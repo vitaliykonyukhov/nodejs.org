@@ -78,7 +78,7 @@ pipeline {
             steps {
                 script {
                     if (TAG_EXIST_ON_PROD == "true") {
-                        ssh ${PROD_USER}"@"${PROD_HOST} "ln -sfn /var/www/myapp/releases/${TAG_NAME}/ /var/www/myapp/current"
+                        sh '''ssh ${PROD_USER}@${PROD_HOST} "ln -sfn /var/www/myapp/releases/${TAG_NAME}/ /var/www/myapp/current"'''
                         echo "symlink changed to ${TAG_NAME}"
                     } else {
                         sh 'git clean -fdx'
